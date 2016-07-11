@@ -29,12 +29,12 @@ import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 
 public class UIBuilder {
-	private static final int NAV_WIDTH = 25;
-	private static final int CONN_HEIGHT = 4;
+	private static final int CONN_WIDTH = 25;
+	private static final int TOOLBAR_HEIGHT = 4;
 	private static final int SQL_HEIGHT = 14;
 	
 	private Panel connectionsPanel;
-	private Panel schemaBrowserPanel;
+	private Panel toolbarPanel;
 	private Panel sqlPanel;
 	private Panel resultPanel;
 	private BasicWindow mainWindow;
@@ -46,9 +46,9 @@ public class UIBuilder {
     	
     }
 
-    private void buildSchemaBrowserPanel(TerminalSize size) {
-    	schemaBrowserPanel = new Panel();
-    	schemaBrowserPanel.setPreferredSize(size);
+    private void buildToolbarPanel(TerminalSize size) {
+    	toolbarPanel = new Panel();
+    	toolbarPanel.setPreferredSize(size);
     }
 
     private void buildSQLPanel(TerminalSize size) {
@@ -67,17 +67,17 @@ public class UIBuilder {
         Panel mainPanel = new Panel();
         mainPanel.setLayoutManager(new BorderLayout());
 
-        // build navigator
-        Panel navPanel = new Panel();
-        navPanel.setPreferredSize(screenSize.withColumns(NAV_WIDTH));
-        navPanel.setLayoutManager(new BorderLayout());
-        navPanel.addComponent(connectionsPanel.withBorder(Borders.singleLine("Connections")), BorderLayout.Location.TOP);
-        navPanel.addComponent(schemaBrowserPanel.withBorder(Borders.singleLine("Schema Browser")), BorderLayout.Location.CENTER);
-        mainPanel.addComponent(navPanel, BorderLayout.Location.LEFT);
+        // build toolbar
+        Panel topPanel = new Panel();
+        topPanel.setPreferredSize(screenSize.withRows(TOOLBAR_HEIGHT));
+        topPanel.setLayoutManager(new BorderLayout());
+        topPanel.addComponent(toolbarPanel.withBorder(Borders.singleLine("Toolbar")), BorderLayout.Location.CENTER);
+        topPanel.addComponent(connectionsPanel.withBorder(Borders.singleLine("Connections")), BorderLayout.Location.RIGHT);
+        mainPanel.addComponent(topPanel, BorderLayout.Location.TOP);
 
         // build central area
         Panel centralPanel = new Panel();
-        centralPanel.setPreferredSize(screenSize.withRelativeColumns(-NAV_WIDTH));
+        centralPanel.setPreferredSize(screenSize.withRelativeRows(-TOOLBAR_HEIGHT));
         centralPanel.setLayoutManager(new BorderLayout());
         centralPanel.addComponent(sqlPanel.withBorder(Borders.singleLine("SQL")), BorderLayout.Location.TOP);
         centralPanel.addComponent(resultPanel.withBorder(Borders.singleLine("Result")), BorderLayout.Location.CENTER);
@@ -90,10 +90,10 @@ public class UIBuilder {
     }
     
     public void build(TerminalSize screenSize) {
-    	buildConnectionsPanel(new TerminalSize(NAV_WIDTH, CONN_HEIGHT));
-    	buildSchemaBrowserPanel(new TerminalSize(NAV_WIDTH, screenSize.getRows() - CONN_HEIGHT));
-    	buildSQLPanel(new TerminalSize(screenSize.getColumns() - NAV_WIDTH, SQL_HEIGHT));
-    	buildResultPanel(new TerminalSize(screenSize.getColumns() - NAV_WIDTH, screenSize.getRows() - SQL_HEIGHT));
+    	buildToolbarPanel(new TerminalSize(screenSize.getColumns() - CONN_WIDTH, TOOLBAR_HEIGHT));
+    	buildConnectionsPanel(new TerminalSize(CONN_WIDTH, TOOLBAR_HEIGHT));
+    	buildSQLPanel(new TerminalSize(screenSize.getColumns(), SQL_HEIGHT));
+    	buildResultPanel(new TerminalSize(screenSize.getColumns(), screenSize.getRows() - TOOLBAR_HEIGHT - SQL_HEIGHT));
     	buildMainWindow(screenSize);
     }
 
@@ -101,8 +101,8 @@ public class UIBuilder {
 		return connectionsPanel;
 	}
 
-	public Panel getSchemaBrowserPanel() {
-		return schemaBrowserPanel;
+	public Panel getToolbarPanel() {
+		return toolbarPanel;
 	}
 
 	public Panel getSqlPanel() {

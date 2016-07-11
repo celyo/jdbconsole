@@ -49,6 +49,8 @@ public class MainApp {
     }
     
     private static void init() throws IOException {
+    	Configuration.load();
+    	Configuration.print();
     	terminal = new DefaultTerminalFactory().createTerminal();
         screen = new TerminalScreen(terminal);
         gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));

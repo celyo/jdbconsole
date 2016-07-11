@@ -5,14 +5,14 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>JDBConsole</name>
   <properties>
-  	<lanterna.version>3.0.0-beta3</lanterna.version>
+    <lanterna.version>3.0.0-beta3</lanterna.version>
   </properties>
   <dependencies>
-  	<dependency>
-  		<groupId>com.googlecode.lanterna</groupId>
-  		<artifactId>lanterna</artifactId>
-  		<version>${lanterna.version}</version>
-  	</dependency>
+    <dependency>
+      <groupId>com.googlecode.lanterna</groupId>
+      <artifactId>lanterna</artifactId>
+      <version>${lanterna.version}</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -26,6 +26,39 @@
           <target>1.7</target>
         </configuration>
       </plugin>
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>2.4</version>
+    <configuration>
+      <archive>
+        <manifest>
+           <addClasspath>true</addClasspath>
+           <mainClass>org.celyo.jdbconsole.MainApp</mainClass>
+           <classpathPrefix>lib/</classpathPrefix>
+        </manifest>
+      </archive>
+    </configuration>
+  </plugin>
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <version>2.5.1</version>
+    <executions>
+      <execution>
+        <id>copy-dependencies</id>
+        <phase>package</phase>
+        <goals>
+          <goal>copy-dependencies</goal>
+        </goals>
+        <configuration>
+          <outputDirectory>
+            ${project.build.directory}/lib/
+          </outputDirectory>
+        </configuration>
+      </execution>
+  </executions>
+  </plugin>
     </plugins>
   </build>
 </project>
