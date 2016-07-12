@@ -17,6 +17,7 @@
 
 package org.celyo.jdbconsole;
 
+import org.celyo.jdbconsole.ui.UIBuilder;
 import java.io.IOException;
 
 import com.googlecode.lanterna.TextColor;
@@ -47,8 +48,9 @@ public class MainApp {
   }
 
   private static void init() throws IOException {
-    Configuration.load();
-    Configuration.print();
+    AppConfig.load();
+    AppConfig.print();
+    AppConfig.save();
     terminal = new DefaultTerminalFactory().createTerminal();
     screen = new TerminalScreen(terminal);
     gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(),
