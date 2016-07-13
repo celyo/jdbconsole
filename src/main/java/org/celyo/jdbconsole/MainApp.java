@@ -17,8 +17,9 @@
 
 package org.celyo.jdbconsole;
 
-import org.celyo.jdbconsole.ui.UIBuilder;
 import java.io.IOException;
+
+import org.celyo.jdbconsole.ui.UIBuilder;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
