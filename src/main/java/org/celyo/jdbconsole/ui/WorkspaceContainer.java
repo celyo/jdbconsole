@@ -25,7 +25,7 @@ import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 
-public class WorspaceContainer implements WorkspaceView {
+public class WorkspaceContainer implements WorkspaceView {
 
   private static final int CONN_WIDTH = 25;
   private static final int TOOLBAR_HEIGHT = 4;
