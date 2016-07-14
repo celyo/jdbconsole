@@ -16,6 +16,14 @@
 
 package org.celyo.jdbconsole.ui;
 
-public interface ConnectionsView extends UiView {
+import java.util.List;
+import org.celyo.jdbconsole.model.ConnectionInfo;
 
+public interface ConnectionsView extends UiView {
+  void setConncections(List<ConnectionInfo> conns);
+  List<ConnectionInfo> getConncections();
+  ConnectionInfo getCurrentConnection();
+  void setCurrentConnection(ConnectionInfo conn);
+  
+  void setConnectionChangeListener(ConnectionChangeListener listener);
 }

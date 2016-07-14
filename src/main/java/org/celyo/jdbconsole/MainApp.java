@@ -30,6 +30,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import org.celyo.jdbconsole.ui.WorkspaceControler;
 
 
 public class MainApp {
@@ -37,6 +38,7 @@ public class MainApp {
   private static Screen screen = null;
   private static MultiWindowTextGUI gui = null;
   private static WorkspaceView workspace = new WorkspaceContainer();
+  private static WorkspaceControler controler = new WorkspaceControler(workspace);
 
   public static void main(String[] args) throws IOException {
     init();
