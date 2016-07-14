@@ -19,7 +19,8 @@ package org.celyo.jdbconsole;
 
 import java.io.IOException;
 
-import org.celyo.jdbconsole.ui.UIBuilder;
+import org.celyo.jdbconsole.ui.WorkspaceView;
+import org.celyo.jdbconsole.ui.WorspaceContainer;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
@@ -35,17 +36,17 @@ public class MainApp {
   private static Terminal terminal = null;
   private static Screen screen = null;
   private static MultiWindowTextGUI gui = null;
-  private static UIBuilder builder = new UIBuilder();
+  private static WorkspaceView workspace = new WorspaceContainer();
 
   public static void main(String[] args) throws IOException {
     init();
 
     screen.startScreen();
 
-    builder.build(screen.getTerminalSize());
+    workspace.init(screen.getTerminalSize());
 
     // Create gui and start gui
-    gui.addWindowAndWait(builder.getMainWindow());
+    gui.addWindowAndWait(workspace.asWindow());
   }
 
   private static void init() throws IOException {

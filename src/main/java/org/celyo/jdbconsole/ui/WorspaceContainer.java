@@ -21,43 +21,24 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Borders;
+import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 
-public class UIBuilder {
+public class WorspaceContainer implements WorkspaceView {
 
   private static final int CONN_WIDTH = 25;
   private static final int TOOLBAR_HEIGHT = 4;
   // private static final int SQL_HEIGHT = 10;
 
-  private Panel connectionsPanel;
-  private Panel toolbarPanel;
-  private Panel sqlPanel;
-  private Panel resultPanel;
+  private ToolbarView toolbarView = new ToolbarContainer();
+  private ConnectionsView connectionsView = new ConnectionsContainer();
+  private SqlView sqlView = new SqlContainer();
+  private ResultView resultView = new ResultContainer();
+  
   private BasicWindow mainWindow;
 
-  private void buildConnectionsPanel(TerminalSize size) {
-    connectionsPanel = new Panel();
-    connectionsPanel.setPreferredSize(size);
-
-  }
-
-  private void buildToolbarPanel(TerminalSize size) {
-    toolbarPanel = new Panel();
-    toolbarPanel.setPreferredSize(size);
-  }
-
-  private void buildSQLPanel(TerminalSize size) {
-    sqlPanel = new Panel();
-    sqlPanel.setPreferredSize(size);
-  }
-
-  private void buildResultPanel(TerminalSize size) {
-    resultPanel = new Panel();
-    resultPanel.setPreferredSize(size);
-  }
-
-  private void buildMainWindow(TerminalSize screenSize) {
+  private void initMainWindow(TerminalSize screenSize) {
     mainWindow = new BasicWindow();
 
     Panel mainPanel = new Panel();
@@ -67,9 +48,9 @@ public class UIBuilder {
     Panel topPanel = new Panel();
     topPanel.setPreferredSize(screenSize.withRows(TOOLBAR_HEIGHT));
     topPanel.setLayoutManager(new BorderLayout());
-    topPanel.addComponent(toolbarPanel.withBorder(Borders.singleLine("Toolbar")),
+    topPanel.addComponent(toolbarView.asComponent().withBorder(Borders.singleLine("Toolbar")),
         BorderLayout.Location.CENTER);
-    topPanel.addComponent(connectionsPanel.withBorder(Borders.singleLine("Connections")),
+    topPanel.addComponent(connectionsView.asComponent().withBorder(Borders.singleLine("Connections")),
         BorderLayout.Location.RIGHT);
     mainPanel.addComponent(topPanel, BorderLayout.Location.TOP);
 
@@ -77,9 +58,9 @@ public class UIBuilder {
     Panel centralPanel = new Panel();
     centralPanel.setPreferredSize(screenSize.withRelativeRows(-TOOLBAR_HEIGHT));
     centralPanel.setLayoutManager(new BorderLayout());
-    centralPanel.addComponent(sqlPanel.withBorder(Borders.singleLine("SQL")),
+    centralPanel.addComponent(sqlView.asComponent().withBorder(Borders.singleLine("SQL")),
         BorderLayout.Location.TOP);
-    centralPanel.addComponent(resultPanel.withBorder(Borders.singleLine("Result")),
+    centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine("Result")),
         BorderLayout.Location.CENTER);
     mainPanel.addComponent(centralPanel, BorderLayout.Location.CENTER);
 
@@ -89,34 +70,56 @@ public class UIBuilder {
     mainWindow.setHints(Arrays.asList(Window.Hint.FULL_SCREEN));
   }
 
-  public void build(TerminalSize screenSize) {
-    buildToolbarPanel(new TerminalSize(screenSize.getColumns() - CONN_WIDTH, TOOLBAR_HEIGHT));
-    buildConnectionsPanel(new TerminalSize(CONN_WIDTH, TOOLBAR_HEIGHT));
-    buildSQLPanel(
-        new TerminalSize(screenSize.getColumns(), (screenSize.getRows() - TOOLBAR_HEIGHT) / 2));
-    buildResultPanel(
-        new TerminalSize(screenSize.getColumns(), (screenSize.getRows() - TOOLBAR_HEIGHT) / 2));
-    buildMainWindow(screenSize);
+  @Override
+  public void init(TerminalSize size) {
+    toolbarView.init(new TerminalSize(size.getColumns() - CONN_WIDTH, TOOLBAR_HEIGHT));
+    connectionsView.init(new TerminalSize(CONN_WIDTH, TOOLBAR_HEIGHT));
+    sqlView.init(new TerminalSize(size.getColumns(), (size.getRows() - TOOLBAR_HEIGHT) / 2));
+    resultView.init(new TerminalSize(size.getColumns(), (size.getRows() - TOOLBAR_HEIGHT) / 2));
+    
+    initMainWindow(size);
   }
 
-  public Panel getConnectionsPanel() {
-    return connectionsPanel;
+  @Override
+  public void uninit() {
+    toolbarView.uninit();
+    connectionsView.uninit();
+    sqlView.uninit();
+    resultView.uninit();
+    
+    mainWindow = null;
   }
 
-  public Panel getToolbarPanel() {
-    return toolbarPanel;
+  @Override
+  public Component asComponent() {
+    return mainWindow.getComponent();
   }
 
-  public Panel getSqlPanel() {
-    return sqlPanel;
-  }
-
-  public Panel getResultPanel() {
-    return resultPanel;
-  }
-
-  public BasicWindow getMainWindow() {
+  @Override
+  public BasicWindow asWindow() {
     return mainWindow;
   }
+
+  @Override
+  public ToolbarView getToolbarView() {
+    return toolbarView;
+  }
+
+  @Override
+  public ConnectionsView getConnectionsView() {
+    return connectionsView;
+  }
+
+  @Override
+  public SqlView getSqlView() {
+    return sqlView;
+  }
+
+  @Override
+  public ResultView getResultView() {
+    return resultView;
+  }
+  
+  
 
 }

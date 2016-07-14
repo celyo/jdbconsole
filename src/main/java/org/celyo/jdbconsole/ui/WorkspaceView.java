@@ -18,8 +18,8 @@ package org.celyo.jdbconsole.ui;
 
 import com.googlecode.lanterna.gui2.BasicWindow;
 
-public interface Workspace {
-  BasicWindow getMainWindow();
+public interface WorkspaceView extends UiView {
+  BasicWindow asWindow();
 
   ToolbarView getToolbarView();
 
