@@ -19,8 +19,9 @@ package org.celyo.jdbconsole;
 
 import java.io.IOException;
 
-import org.celyo.jdbconsole.ui.WorkspaceView;
 import org.celyo.jdbconsole.ui.WorkspaceContainer;
+import org.celyo.jdbconsole.ui.WorkspaceControler;
+import org.celyo.jdbconsole.ui.WorkspaceView;
 
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.DefaultWindowManager;
@@ -30,7 +31,6 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-import org.celyo.jdbconsole.ui.WorkspaceControler;
 
 
 public class MainApp {
@@ -46,6 +46,7 @@ public class MainApp {
     screen.startScreen();
 
     workspace.init(screen.getTerminalSize());
+    controler.init();
 
     // Create gui and start gui
     gui.addWindowAndWait(workspace.asWindow());

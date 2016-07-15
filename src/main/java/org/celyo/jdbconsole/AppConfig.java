@@ -28,13 +28,15 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.celyo.jdbconsole.model.ConnectionInfo;
+import org.celyo.jdbconsole.util.OrderedProperties;
+import org.celyo.jdbconsole.util.StrUtils;
 
 public class AppConfig {
   private static final String APP_NAME = "jdbconsole";
   private static final String APP_VERSION = "1.0";
   private static final String CONF_FILE_NAME = APP_NAME + ".cfg";
 
-  private static Properties props = new Properties();
+  private static Properties props = new OrderedProperties();
   private static List<ConnectionInfo> conns = new LinkedList<>();
 
   private AppConfig() {}
@@ -56,6 +58,10 @@ public class AppConfig {
     return CONF_FILE_NAME;
   }
 
+  public static List<ConnectionInfo> getConnections() {
+    return conns;
+  }
+
   private static void loadConnections() {
     conns.clear();
     // todo load from properties
@@ -72,6 +78,7 @@ public class AppConfig {
       conn.setUrl(props.getProperty("connection." + conn.getId() + ".url"));
       conn.setUser(props.getProperty("connection." + conn.getId() + ".user"));
       conn.setPassword(props.getProperty("connection." + conn.getId() + ".password"));
+      conn.setDriver(props.getProperty("connection." + conn.getId() + ".driver"));
     }
 
   }
@@ -89,10 +96,11 @@ public class AppConfig {
 
     // save to properties
     for (ConnectionInfo conn : conns) {
-      props.setProperty("connection." + conn.getId() + ".name", conn.getName());
-      props.setProperty("connection." + conn.getId() + ".url", conn.getUrl());
-      props.setProperty("connection." + conn.getId() + ".user", conn.getUser());
-      props.setProperty("connection." + conn.getId() + ".password", conn.getPassword());
+      props.setProperty("connection." + conn.getId() + ".name", StrUtils.defaultString(conn.getName()));
+      props.setProperty("connection." + conn.getId() + ".url", StrUtils.defaultString(conn.getUrl()));
+      props.setProperty("connection." + conn.getId() + ".user", StrUtils.defaultString(conn.getUser()));
+      props.setProperty("connection." + conn.getId() + ".password", StrUtils.defaultString(conn.getPassword()));
+      props.setProperty("connection." + conn.getId() + ".driver", StrUtils.defaultString(conn.getDriver()));
     }
   }
 

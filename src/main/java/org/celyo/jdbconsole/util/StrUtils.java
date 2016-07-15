@@ -27,6 +27,18 @@ public class StrUtils {
       new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
   private StrUtils() {}
+  
+  public static String defaultString(String param) {
+    return defaultString(param, "");
+  }
+
+  public static String defaultString(String param, String def) {
+    if (param == null || param.isEmpty()) {
+      return def;
+    } else {
+      return param;
+    }
+  }
 
   public static Integer asInteger(String param) {
     if (param == null) {

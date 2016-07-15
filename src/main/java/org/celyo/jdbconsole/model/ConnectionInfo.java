@@ -23,6 +23,7 @@ public class ConnectionInfo {
   private String url;
   private String user;
   private String password;
+  private String driver;
 
   public ConnectionInfo() {}
 
@@ -72,6 +73,14 @@ public class ConnectionInfo {
     this.password = password;
   }
 
+  public String getDriver() {
+    return driver;
+  }
+
+  public void setDriver(String driver) {
+    this.driver = driver;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -99,8 +108,9 @@ public class ConnectionInfo {
 
   @Override
   public String toString() {
-    return "ConnectionInfo [id=" + id + ", name=" + name + ", url=" + url + ", user=" + user
-        + ", password=" + password + "]";
+    return name;
+//    return "ConnectionInfo [id=" + id + ", name=" + name + ", url=" + url + ", user=" + user
+//        + ", password=" + password + "]";
   }
 
 

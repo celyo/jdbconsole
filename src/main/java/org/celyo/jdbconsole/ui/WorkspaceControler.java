@@ -15,6 +15,8 @@
  */
 package org.celyo.jdbconsole.ui;
 
+import org.celyo.jdbconsole.AppConfig;
+
 public class WorkspaceControler {
   private WorkspaceView view;
   
@@ -24,6 +26,10 @@ public class WorkspaceControler {
 
   public WorkspaceView getView() {
     return view;
+  }
+  
+  public void init() {
+    view.getConnectionsView().setConncections(AppConfig.getConnections());
   }
   
 }
