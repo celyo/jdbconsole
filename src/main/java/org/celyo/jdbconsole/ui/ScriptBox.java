@@ -13,7 +13,6 @@
  * the License.
  * 
  */
-
 package org.celyo.jdbconsole.ui;
 
 import com.googlecode.lanterna.TerminalSize;
@@ -23,16 +22,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScriptBox extends TextBox {
-  private static final Character SPACE =  ' ';
-  
-  public static interface Listener {
+
+  private static final Character SPACE = ' ';
+
+  public static interface ExecuteStatementListener {
+
     void onExecuteStatement(List<String> txtLines, int row, int column);
+  }
+
+  public static interface ExecuteScriptListener {
+
     void onExecuteScript(List<String> txtLines);
+  }
+
+  public static interface CodeCompleteListener {
+
     void onCodeComplete(List<String> txtLines, int row, int column);
-  } 
-  
-  private Listener listener;
-  
+  }
+
+  private ExecuteStatementListener executeStatementListener;
+  private ExecuteScriptListener executeScriptListener;
+  private CodeCompleteListener codeCompleteListener;
+
   public ScriptBox() {
     super("", Style.MULTI_LINE);
   }
@@ -41,16 +52,24 @@ public class ScriptBox extends TextBox {
     super(preferredSize, Style.MULTI_LINE);
   }
 
-  public void setListener(Listener listener) {
-    this.listener = listener;
+  public void setExecuteStatementListener(ExecuteStatementListener executeStatementListener) {
+    this.executeStatementListener = executeStatementListener;
   }
-  
+
+  public void setExecuteScriptListener(ExecuteScriptListener executeScriptListener) {
+    this.executeScriptListener = executeScriptListener;
+  }
+
+  public void setCodeCompleteListener(CodeCompleteListener codeCompleteListener) {
+    this.codeCompleteListener = codeCompleteListener;
+  }
+
   public List<String> getLines() {
     List<String> result = new ArrayList<>();
     for (int i = 0; i < getLineCount(); i++) {
       result.add(getLine(i));
     }
-    
+
     return result;
   }
 
@@ -61,24 +80,24 @@ public class ScriptBox extends TextBox {
         case Enter:
           // Ctrl + Enter is pressed
           if (keyStroke.isCtrlDown() && !keyStroke.isAltDown() && !keyStroke.isShiftDown()) {
-            if (listener != null) {
-              listener.onExecuteStatement(getLines(), getCaretPosition().getRow(), getCaretPosition().getColumn());
+            if (executeStatementListener != null) {
+              executeStatementListener.onExecuteStatement(getLines(), getCaretPosition().getRow(), getCaretPosition().getColumn());
             }
             return Result.HANDLED;
           }
           break;
         case F5:
-          if (listener != null) {
-            listener.onExecuteScript(getLines());
+          if (executeScriptListener != null) {
+            executeScriptListener.onExecuteScript(getLines());
           }
           return Result.HANDLED;
-          //break;
+        //break;
         case Character:
-          System.out.println("'" + keyStroke.getCharacter() + "' : " + (int)keyStroke.getCharacter());
+          System.out.println("'" + keyStroke.getCharacter() + "' : " + (int) keyStroke.getCharacter());
           // Ctrl + SPACE is pressed
           if (keyStroke.getCharacter().equals(SPACE) && keyStroke.isCtrlDown() && !keyStroke.isAltDown() && !keyStroke.isShiftDown()) {
-            if (listener != null) {
-              listener.onCodeComplete(getLines(), getCaretPosition().getRow(), getCaretPosition().getColumn());
+            if (codeCompleteListener != null) {
+              codeCompleteListener.onCodeComplete(getLines(), getCaretPosition().getRow(), getCaretPosition().getColumn());
             }
             return Result.HANDLED;
           }
@@ -90,6 +109,5 @@ public class ScriptBox extends TextBox {
 
     return super.handleKeyStroke(keyStroke);
   }
-
 
 }

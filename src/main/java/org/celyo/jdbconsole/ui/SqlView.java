@@ -13,9 +13,16 @@
  * the License.
  * 
  */
-
 package org.celyo.jdbconsole.ui;
+
+import org.celyo.jdbconsole.db.SqlStatement;
 
 public interface SqlView extends UiView {
 
+  public static interface ExecuteStatementListener {
+
+    void onExecuteStatement(SqlStatement statement);
+  }
+
+  void setExecuteStatementListener(ExecuteStatementListener listener);
 }

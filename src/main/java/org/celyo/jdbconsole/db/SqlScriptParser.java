@@ -13,10 +13,41 @@
  * the License.
  * 
  */
-
 package org.celyo.jdbconsole.db;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SqlScriptParser {
 // see: http://www.docjar.org/html/api/com/ibatis/common/jdbc/ScriptRunner.java.html
-    
+
+  private List<SqlStatement> statements = new ArrayList<>();
+
+  public void clear() {
+    statements.clear();
+  }
+
+  public void parse(List<String> lines) {
+    // TODO
+  }
+
+  public void parse(String text) {
+    // TODO
+  }
+
+  public List<SqlStatement> getStatements() {
+    return Collections.unmodifiableList(statements);
+  }
+
+  public SqlStatement getSattement(int row, int column) {
+    for (SqlStatement st : statements) {
+      if (row >= st.getStartRow() && row <= st.getEndRow()
+              && column >= st.getStartColumn() && column <= st.getEndColumn()) {
+        return st;
+      }
+    }
+
+    return null;
+  }
 }
