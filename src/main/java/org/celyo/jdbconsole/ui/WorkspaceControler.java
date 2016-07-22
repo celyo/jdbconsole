@@ -15,10 +15,35 @@
  */
 package org.celyo.jdbconsole.ui;
 
+import java.util.List;
 import org.celyo.jdbconsole.AppConfig;
+import org.celyo.jdbconsole.db.SqlStatement;
+import org.celyo.jdbconsole.model.ConnectionInfo;
 
 public class WorkspaceControler {
   private WorkspaceView view;
+  
+  private ConnectionChangeListener connectionChangeListener = new ConnectionChangeListener() {
+    @Override
+    public void onConnectionChange(ConnectionInfo conn) {
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+  };
+  
+  private ExecuteStatementListener executeStatementListener = new ExecuteStatementListener() {
+    @Override
+    public void onExecuteStatement(SqlStatement statement) {
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+  };
+  
+  private ExecuteStatementsListener executeStatementsListener = new ExecuteStatementsListener() {
+    @Override
+    public void onExecuteStatements(List<SqlStatement> statements) {
+      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+  };
+  
   
   public WorkspaceControler(WorkspaceView view) {
     this.view = view;
@@ -29,7 +54,12 @@ public class WorkspaceControler {
   }
   
   public void init() {
+    view.getConnectionsView().setConnectionChangeListener(null);
     view.getConnectionsView().setConncections(AppConfig.getConnections());
+    view.getConnectionsView().setConnectionChangeListener(connectionChangeListener);
+
+    view.getSqlView().setExecuteStatementListener(executeStatementListener);
+    view.getSqlView().setExecuteStatementsListener(executeStatementsListener);
   }
   
 }

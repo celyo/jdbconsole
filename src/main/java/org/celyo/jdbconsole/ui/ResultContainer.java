@@ -19,8 +19,13 @@ package org.celyo.jdbconsole.ui;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
+import java.util.ArrayList;
+import java.util.List;
+import org.celyo.jdbconsole.model.TextMessage;
 
 public class ResultContainer implements ResultView {
+  
+  private final List<TextMessage> messages = new ArrayList<>();
   
   private Panel root;
 
@@ -39,5 +44,24 @@ public class ResultContainer implements ResultView {
   public Component asComponent() {
     return root;
   }
+
+  @Override
+  public void clearMessages() {
+    messages.clear();
+    //TODO update UI
+  }
+
+  @Override
+  public void addMessage(TextMessage message) {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
+  @Override
+  public void setMessage(TextMessage message) {
+    clearMessages();
+    addMessage(message);
+  }
+  
+  
 
 }

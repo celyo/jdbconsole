@@ -13,15 +13,11 @@
  * the License.
  * 
  */
-
 package org.celyo.jdbconsole.ui;
 
-import org.celyo.jdbconsole.model.TextMessage;
+import org.celyo.jdbconsole.db.SqlStatement;
 
-public interface ResultView extends UiView {
-  
-  void clearMessages();
-  void addMessage(TextMessage message);
-  void setMessage(TextMessage message);
+public interface ExecuteStatementListener {
 
+  void onExecuteStatement(SqlStatement statement);
 }

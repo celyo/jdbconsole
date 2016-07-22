@@ -21,29 +21,45 @@ import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
 import java.util.List;
 import org.celyo.jdbconsole.db.SqlScriptParser;
+import org.celyo.jdbconsole.db.SqlStatement;
 
 public class SqlContainer implements SqlView {
 
   private Panel root;
   private ScriptBox sqlBox;
   
-  private final SqlScriptParser parser = new SqlScriptParser();
-
-  private SqlView.ExecuteStatementListener executeStatementListener;
+  private ExecuteStatementListener executeStatementListener;
+  private ExecuteStatementsListener executeStatementsListener;
 
   private final ScriptBox.ExecuteStatementListener sqlBoxExecuteStatementListener = new ScriptBox.ExecuteStatementListener() {
     @Override
     public void onExecuteStatement(List<String> txtLines, int row, int column) {
-      //TODO
-      System.out.println(".onExecuteStatement()");
+      if (executeStatementListener != null) {
+        SqlScriptParser parser = new SqlScriptParser();
+        parser.parse(txtLines);
+        SqlStatement statement = parser.getSattement(row, column);
+        if (statement != null) {
+          executeStatementListener.onExecuteStatement(statement);
+        } else {
+          throw new RuntimeException("Cannot retrieve current sql statement!");
+        }
+      }
     }
   };
 
   private final ScriptBox.ExecuteScriptListener sqlBoxExecuteScriptListener = new ScriptBox.ExecuteScriptListener() {
     @Override
     public void onExecuteScript(List<String> txtLines) {
-      //TODO
-      System.out.println(".onExecuteScript()");
+      if (executeStatementsListener != null) {
+        SqlScriptParser parser = new SqlScriptParser();
+        parser.parse(txtLines);
+        List<SqlStatement> statements = parser.getStatements();
+        if (statements != null) {
+          executeStatementsListener.onExecuteStatements(statements);
+        } else {
+          throw new RuntimeException("Cannot retrieve sql statements!");
+        }
+      }
     }
   };
 
@@ -84,4 +100,10 @@ public class SqlContainer implements SqlView {
     executeStatementListener = listener;
   }
 
+  @Override
+  public void setExecuteStatementsListener(ExecuteStatementsListener listener) {
+    executeStatementsListener = listener;
+  }
+
+  
 }
