@@ -17,10 +17,14 @@
 package org.celyo.jdbconsole.ui;
 
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.gui2.TextBox;
+import com.googlecode.lanterna.gui2.table.Table;
 import java.util.ArrayList;
 import java.util.List;
+import org.celyo.jdbconsole.model.ResultSet;
 import org.celyo.jdbconsole.model.TextMessage;
 
 public class ResultContainer implements ResultView {
@@ -28,15 +32,31 @@ public class ResultContainer implements ResultView {
   private final List<TextMessage> messages = new ArrayList<>();
   
   private Panel root;
+  private TextBox msgBox;
+  private Table<String> resultTable;
+  
+  private void setActiveComponent(Component comp) {
+    root.removeAllComponents();
+    root.addComponent(comp, BorderLayout.Location.CENTER);
+  }
 
   @Override
   public void init(TerminalSize size) {
     root = new Panel();
     root.setPreferredSize(size);
+    root.setLayoutManager(new BorderLayout());
+    
+    msgBox = new ScriptBox(size);
+    msgBox.setReadOnly(true);
+    resultTable = new Table("#");
+    
+    setActiveComponent(resultTable);
   }
 
   @Override
   public void uninit() {
+    msgBox = null;
+    resultTable = null;
     root = null;
   }
 
@@ -48,18 +68,46 @@ public class ResultContainer implements ResultView {
   @Override
   public void clearMessages() {
     messages.clear();
-    //TODO update UI
+    msgBox.setText("");
+    //msgBox.invalidate();
   }
 
   @Override
   public void addMessage(TextMessage message) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    msgBox.addLine(message.getType() + " : " + message.getText());
+    setActiveComponent(msgBox);
   }
 
   @Override
   public void setMessage(TextMessage message) {
     clearMessages();
     addMessage(message);
+  }
+
+  @Override
+  public void clearResult() {
+    for (int i = resultTable.getTableModel().getRowCount() - 1; i >= 0; i--) {
+      resultTable.getTableModel().removeRow(i);
+    }
+
+    for (int i = resultTable.getTableModel().getColumnCount()- 1; i >= 0; i--) {
+      if (!"#".equals(resultTable.getTableModel().getColumnLabel(i))) {
+        resultTable.getTableModel().removeColumn(i);
+      }
+    }
+  }
+
+  @Override
+  public void setResult(ResultSet rs) {
+    //TODO
+    setActiveComponent(resultTable);
+  }
+
+  @Override
+  public void clearAll() {
+    clearMessages();
+    clearResult();
+    setActiveComponent(msgBox);
   }
   
   

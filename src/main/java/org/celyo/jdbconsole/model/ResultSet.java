@@ -13,20 +13,27 @@
  * the License.
  * 
  */
+package org.celyo.jdbconsole.model;
 
-package org.celyo.jdbconsole.ui;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import org.celyo.jdbconsole.model.ResultSet;
-import org.celyo.jdbconsole.model.TextMessage;
+public class ResultSet {
 
-public interface ResultView extends UiView {
-  
-  void clearMessages();
-  void addMessage(TextMessage message);
-  void setMessage(TextMessage message);
+  private final List<String> columns = new ArrayList<>();
+  private final List<Map<String, Object>> rows = new ArrayList<>();
 
-  void clearResult();
-  void setResult(ResultSet rs);
-  
-  void clearAll();
+  public List<String> getColumns() {
+    return columns;
+  }
+
+  public List<Map<String, Object>> getRows() {
+    return rows;
+  }
+
+  public void clear() {
+    rows.clear();
+    columns.clear();
+  }
 }
