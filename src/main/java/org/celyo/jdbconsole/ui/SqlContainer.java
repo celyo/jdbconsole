@@ -66,8 +66,7 @@ public class SqlContainer implements SqlView {
   private final ScriptBox.CodeCompleteListener sqlBoxCodeCompleteListener = new ScriptBox.CodeCompleteListener() {
     @Override
     public void onCodeComplete(List<String> txtLines, int row, int column) {
-      //TODO
-      System.out.println(".onCodeComplete()");
+      System.out.println("SqlContainer.ScriptBox.CodeCompleteListener.onCodeComplete: TODO - real impementation needed");
     }
   };
 

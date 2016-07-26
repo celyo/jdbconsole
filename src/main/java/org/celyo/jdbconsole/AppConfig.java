@@ -64,7 +64,6 @@ public class AppConfig {
 
   private static void loadConnections() {
     conns.clear();
-    // todo load from properties
 
     for (String key : props.stringPropertyNames()) {
       if (key.startsWith("connection.") && key.endsWith(".name")) {

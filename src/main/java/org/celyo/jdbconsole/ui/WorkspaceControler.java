@@ -21,30 +21,30 @@ import org.celyo.jdbconsole.db.SqlStatement;
 import org.celyo.jdbconsole.model.ConnectionInfo;
 
 public class WorkspaceControler {
+
   private WorkspaceView view;
-  
+
   private ConnectionChangeListener connectionChangeListener = new ConnectionChangeListener() {
     @Override
     public void onConnectionChange(ConnectionInfo conn) {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      System.out.println("WorkspaceControler.ConnectionChangeListener.onConnectionChange: TODO - real impementation needed");
     }
   };
-  
+
   private ExecuteStatementListener executeStatementListener = new ExecuteStatementListener() {
     @Override
     public void onExecuteStatement(SqlStatement statement) {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      System.out.println("WorkspaceControler.ExecuteStatementListener.onExecuteStatement: TODO - real impementation needed");
     }
   };
-  
+
   private ExecuteStatementsListener executeStatementsListener = new ExecuteStatementsListener() {
     @Override
     public void onExecuteStatements(List<SqlStatement> statements) {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      System.out.println("WorkspaceControler.ExecuteStatementsListener.onExecuteStatements: TODO - real impementation needed");
     }
   };
-  
-  
+
   public WorkspaceControler(WorkspaceView view) {
     this.view = view;
   }
@@ -52,7 +52,7 @@ public class WorkspaceControler {
   public WorkspaceView getView() {
     return view;
   }
-  
+
   public void init() {
     view.getConnectionsView().setConnectionChangeListener(null);
     view.getConnectionsView().setConncections(AppConfig.getConnections());
@@ -61,5 +61,5 @@ public class WorkspaceControler {
     view.getSqlView().setExecuteStatementListener(executeStatementListener);
     view.getSqlView().setExecuteStatementsListener(executeStatementsListener);
   }
-  
+
 }

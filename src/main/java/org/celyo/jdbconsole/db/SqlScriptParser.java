@@ -29,11 +29,11 @@ public class SqlScriptParser {
   }
 
   public void parse(List<String> lines) {
-    // TODO
+    System.out.println("SqlScriptParser.parse (lines): TODO - real impementation needed");
   }
 
   public void parse(String text) {
-    // TODO
+    System.out.println("SqlScriptParser.parse (text): TODO - real impementation needed");
   }
 
   public List<SqlStatement> getStatements() {

@@ -99,7 +99,7 @@ public class ResultContainer implements ResultView {
 
   @Override
   public void setResult(ResultSet rs) {
-    //TODO
+    System.out.println("ResultContainer.setResult: TODO - real impementation needed");
     setActiveComponent(resultTable);
   }
 

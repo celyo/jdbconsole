@@ -13,7 +13,6 @@
  * the License.
  * 
  */
-
 package org.celyo.jdbconsole.ui;
 
 import com.googlecode.lanterna.TerminalSize;
@@ -28,8 +27,9 @@ import java.util.List;
 import org.celyo.jdbconsole.model.ConnectionInfo;
 
 public class ConnectionsContainer implements ConnectionsView {
+
   private static final int BTN_WIDTH = 3;
-  
+
   private Panel root;
   private ComboBox<ConnectionInfo> connectionsCombo;
   private Button editConnectionsButton;
@@ -53,7 +53,7 @@ public class ConnectionsContainer implements ConnectionsView {
     editConnectionsButton.setEnabled(false);
     editConnectionsButton.setPreferredSize(size.withColumns(BTN_WIDTH));
     root.addComponent(editConnectionsButton, BorderLayout.Location.RIGHT);
-    
+
     connectionsCombo.addListener(new ComboBox.Listener() {
 
       @Override
@@ -63,7 +63,7 @@ public class ConnectionsContainer implements ConnectionsView {
           if (selectedIndex >= 0) {
             conn = connectionsCombo.getItem(selectedIndex);
           }
-          
+
           connectionChangeListener.onConnectionChange(conn);
         }
       }
@@ -90,10 +90,10 @@ public class ConnectionsContainer implements ConnectionsView {
         }
       }
     }
-    
+
     return -1;
   }
-  
+
   @Override
   public void setConncections(List<ConnectionInfo> conns) {
     connectionsCombo.clearItems();
@@ -132,6 +132,6 @@ public class ConnectionsContainer implements ConnectionsView {
   }
 
   private void editConnectionsHandler() {
-    //TODO Implement real editing
+    System.out.println("ConnectionsContainer.editConnectionsHandler: TODO - real impementation needed");
   }
 }
