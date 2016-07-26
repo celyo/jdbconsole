@@ -24,6 +24,8 @@ import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
 
 public class WorkspaceContainer implements WorkspaceView {
 
@@ -48,9 +50,9 @@ public class WorkspaceContainer implements WorkspaceView {
     Panel topPanel = new Panel();
     topPanel.setPreferredSize(screenSize.withRows(TOOLBAR_HEIGHT));
     topPanel.setLayoutManager(new BorderLayout());
-    topPanel.addComponent(toolbarView.asComponent().withBorder(Borders.singleLine("Toolbar")),
+    topPanel.addComponent(toolbarView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_TOOLBAR_TITLE))),
         BorderLayout.Location.CENTER);
-    topPanel.addComponent(connectionsView.asComponent().withBorder(Borders.singleLine("Connections")),
+    topPanel.addComponent(connectionsView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_CONNECTIONS_TITLE))),
         BorderLayout.Location.RIGHT);
     mainPanel.addComponent(topPanel, BorderLayout.Location.TOP);
 
@@ -58,9 +60,9 @@ public class WorkspaceContainer implements WorkspaceView {
     Panel centralPanel = new Panel();
     centralPanel.setPreferredSize(screenSize.withRelativeRows(-TOOLBAR_HEIGHT));
     centralPanel.setLayoutManager(new BorderLayout());
-    centralPanel.addComponent(sqlView.asComponent().withBorder(Borders.singleLine("SQL")),
+    centralPanel.addComponent(sqlView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_SQL_TITLE))),
         BorderLayout.Location.TOP);
-    centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine("Result")),
+    centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_RESULT_TITLE))),
         BorderLayout.Location.CENTER);
     mainPanel.addComponent(centralPanel, BorderLayout.Location.CENTER);
 

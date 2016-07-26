@@ -25,6 +25,8 @@ import com.googlecode.lanterna.gui2.Panel;
 import java.util.ArrayList;
 import java.util.List;
 import org.celyo.jdbconsole.model.ConnectionInfo;
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
 
 public class ConnectionsContainer implements ConnectionsView {
 
@@ -44,7 +46,7 @@ public class ConnectionsContainer implements ConnectionsView {
     connectionsCombo.setReadOnly(true);
     connectionsCombo.setPreferredSize(size.withRelativeColumns(-BTN_WIDTH));
     root.addComponent(connectionsCombo, BorderLayout.Location.CENTER);
-    editConnectionsButton = new Button("E", new Runnable() {
+    editConnectionsButton = new Button(Messages.getString(MessageKey.CONNECTIONS_BUTTON_EDIT_CONNECTIONS), new Runnable() {
       @Override
       public void run() {
         editConnectionsHandler();

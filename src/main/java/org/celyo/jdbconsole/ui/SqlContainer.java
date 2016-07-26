@@ -22,6 +22,8 @@ import com.googlecode.lanterna.gui2.Panel;
 import java.util.List;
 import org.celyo.jdbconsole.db.SqlScriptParser;
 import org.celyo.jdbconsole.db.SqlStatement;
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
 
 public class SqlContainer implements SqlView {
 
@@ -41,7 +43,7 @@ public class SqlContainer implements SqlView {
         if (statement != null) {
           executeStatementListener.onExecuteStatement(statement);
         } else {
-          throw new RuntimeException("Cannot retrieve current sql statement!");
+          throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_SCRIPT_NO_CURRENT_STATEMENT));
         }
       }
     }
@@ -57,7 +59,7 @@ public class SqlContainer implements SqlView {
         if (statements != null) {
           executeStatementsListener.onExecuteStatements(statements);
         } else {
-          throw new RuntimeException("Cannot retrieve sql statements!");
+          throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_SCRIPT_NO_STATEMENTS));
         }
       }
     }

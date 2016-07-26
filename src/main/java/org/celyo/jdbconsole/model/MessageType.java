@@ -16,8 +16,13 @@
 
 package org.celyo.jdbconsole.model;
 
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
+
 public enum MessageType {
-  INFO("Info"), WARNING("Warn"), ERROR("Error");
+  INFO(Messages.getString(MessageKey.MESSAGE_TYPE_INFO)), 
+  WARNING(Messages.getString(MessageKey.MESSAGE_TYPE_WARNING)), 
+  RROR(Messages.getString(MessageKey.MESSAGE_TYPE_ERROR));
   
   private final String caption;
   
