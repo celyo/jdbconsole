@@ -23,6 +23,17 @@ public class SqlStatement {
   private int endRow;
   private int endColumn;
 
+  public SqlStatement() {
+  }
+
+  public SqlStatement(String sql, int startRow, int startColumn, int endRow, int endColumn) {
+    this.sql = sql;
+    this.startRow = startRow;
+    this.startColumn = startColumn;
+    this.endRow = endRow;
+    this.endColumn = endColumn;
+  }
+
   public String getSql() {
     return sql;
   }
@@ -61,6 +72,17 @@ public class SqlStatement {
 
   public void setEndColumn(int endColumn) {
     this.endColumn = endColumn;
+  }
+
+  @Override
+  public String toString() {
+    return "SqlStatement{"
+            + "sql=" + sql
+            + ", startRow=" + startRow
+            + ", startColumn=" + startColumn
+            + ", endRow=" + endRow
+            + ", endColumn=" + endColumn
+            + "}";
   }
 
 }
