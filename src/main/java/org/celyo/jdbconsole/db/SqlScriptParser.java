@@ -41,15 +41,15 @@ public class SqlScriptParser {
     boolean inBlockComment = false;
     
     for (int row = 0; row < lines.size(); row++) {
-        if (sql.length() > 0) {
-          sql.append('\n');
-        }
-        
         String line = lines.get(row);
         String trimmedLine = line.trim();
         // soft processing
         if (trimmedLine.isEmpty() || trimmedLine.startsWith("--") || (inBlockComment && (!trimmedLine.contains("*/")))) {
-          sql.append(line);
+          if (line.isEmpty()) {
+            sql.append('\n');
+          } else {
+            sql.append(line).append('\n');
+          }
         } else { // hard processing
           boolean inLineComment = false;
           boolean inString = false;
@@ -93,6 +93,11 @@ public class SqlScriptParser {
               }
             }
           }
+
+          // if sql separator was not last symbol of the row and it's not the last row at all
+          if (startRow <= row && row < lines.size() - 1) {
+            sql.append('\n');
+          }
         }
     }    
     
@@ -105,8 +110,6 @@ public class SqlScriptParser {
       SqlStatement st = new SqlStatement(sql.toString(), startRow, startCol, row, col);
       statements.add(st);
     }
-
-    System.out.println("SqlScriptParser.parse (lines): TODO - real impementation needed");
   }
 
   public void parse(String text) {
@@ -132,8 +135,10 @@ public class SqlScriptParser {
 
   public SqlStatement getSattement(int row, int column) {
     for (SqlStatement st : statements) {
-      if (row >= st.getStartRow() && row <= st.getEndRow()
-              && column >= st.getStartColumn() && column <= st.getEndColumn()) {
+      if (
+              ((row > st.getStartRow()) || (row == st.getStartRow() && column >= st.getStartColumn())) && 
+              ((row < st.getEndRow()) || (row == st.getEndRow() && column <= st.getEndColumn()))
+          ){
         return st;
       }
     }
