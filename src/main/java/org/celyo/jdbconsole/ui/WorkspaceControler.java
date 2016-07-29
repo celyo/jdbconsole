@@ -15,19 +15,26 @@
  */
 package org.celyo.jdbconsole.ui;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 import org.celyo.jdbconsole.AppConfig;
+import org.celyo.jdbconsole.db.DriverLoader;
 import org.celyo.jdbconsole.db.SqlStatement;
 import org.celyo.jdbconsole.model.ConnectionInfo;
 
 public class WorkspaceControler {
 
-  private WorkspaceView view;
+  private final WorkspaceView view;
+  private final DriverLoader drvLoader = new DriverLoader(AppConfig.getDriverDirName());
+  private Connection connection;
 
   private ConnectionChangeListener connectionChangeListener = new ConnectionChangeListener() {
     @Override
     public void onConnectionChange(ConnectionInfo conn) {
-      System.out.println("WorkspaceControler.ConnectionChangeListener.onConnectionChange: TODO - real impementation needed");
+      closeConnection();
+      openConnection(conn);
     }
   };
 
@@ -60,6 +67,38 @@ public class WorkspaceControler {
 
     view.getSqlView().setExecuteStatementListener(executeStatementListener);
     view.getSqlView().setExecuteStatementsListener(executeStatementsListener);
+  }
+
+  private void openConnection(ConnectionInfo conn) {
+    if (conn.getDriver() == null || conn.getDriver().trim().isEmpty()) {
+      throw new IllegalArgumentException("Connection driver is not set!");
+    }
+    if (conn.getUrl() == null || conn.getUrl().trim().isEmpty()) {
+      throw new IllegalArgumentException("Connection url is not set!");
+    }
+
+    closeConnection();
+
+    try {
+      DriverManager.registerDriver(drvLoader.loadDriver(conn.getDriver()));
+      connection = DriverManager.getConnection(conn.getUrl(), conn.getUser(), conn.getPassword());
+      System.out.println("Connection enstablished successfully.");
+    } catch (SQLException ex) {
+      throw new RuntimeException("Cannot connect to database!", ex);
+    }
+  }
+
+  private void closeConnection() {
+    try {
+      if (connection != null && !connection.isClosed()) {
+        connection.close();
+        connection = null;
+
+        System.out.println("Connection closed successfully.");
+      }
+    } catch (SQLException ex) {
+      throw new RuntimeException("Cannot close connection to database!", ex);
+    }
   }
 
 }

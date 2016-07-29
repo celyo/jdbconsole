@@ -30,6 +30,7 @@ public enum MessageKey {
   
   EXCEPTION_SCRIPT_NO_CURRENT_STATEMENT("exception.script.no_current_statement"),
   EXCEPTION_SCRIPT_NO_STATEMENTS("exception.script.no_statements"),
+  EXCEPTION_CONVERT_CANNOT_CONVERT_RESULTSET("exception.convert.cannot_convert_resultset"),
   ;
 
   private final String key;

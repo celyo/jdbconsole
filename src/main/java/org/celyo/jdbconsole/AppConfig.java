@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class AppConfig {
   private static final String APP_NAME = "jdbconsole";
   private static final String APP_VERSION = "1.0";
   private static final String CONF_FILE_NAME = APP_NAME + ".cfg";
+  private static final String DRV_DIR_NAME = "drivers";
 
   private static Properties props = new OrderedProperties();
   private static List<ConnectionInfo> conns = new LinkedList<>();
@@ -56,6 +58,10 @@ public class AppConfig {
 
   public static String getConfigFileName() {
     return CONF_FILE_NAME;
+  }
+
+  public static String getDriverDirName() {
+    return getConfigDirName() + File.separator + DRV_DIR_NAME;
   }
 
   public static List<ConnectionInfo> getConnections() {
