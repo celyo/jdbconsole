@@ -23,6 +23,8 @@ import org.celyo.jdbconsole.AppConfig;
 import org.celyo.jdbconsole.db.DriverLoader;
 import org.celyo.jdbconsole.db.SqlStatement;
 import org.celyo.jdbconsole.model.ConnectionInfo;
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
 
 public class WorkspaceControler {
 
@@ -69,12 +71,22 @@ public class WorkspaceControler {
     view.getSqlView().setExecuteStatementsListener(executeStatementsListener);
   }
 
+  public void uninit() {
+    view.getConnectionsView().setConnectionChangeListener(null);
+    view.getConnectionsView().setConnectionChangeListener(null);
+
+    view.getSqlView().setExecuteStatementListener(null);
+    view.getSqlView().setExecuteStatementsListener(null);
+    
+    closeConnection();
+  }
+  
   private void openConnection(ConnectionInfo conn) {
     if (conn.getDriver() == null || conn.getDriver().trim().isEmpty()) {
-      throw new IllegalArgumentException("Connection driver is not set!");
+      throw new IllegalArgumentException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_DRIVER_NOT_SET));
     }
     if (conn.getUrl() == null || conn.getUrl().trim().isEmpty()) {
-      throw new IllegalArgumentException("Connection url is not set!");
+      throw new IllegalArgumentException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_URL_NOT_SET));
     }
 
     closeConnection();
@@ -84,7 +96,7 @@ public class WorkspaceControler {
       connection = DriverManager.getConnection(conn.getUrl(), conn.getUser(), conn.getPassword());
       System.out.println("Connection enstablished successfully.");
     } catch (SQLException ex) {
-      throw new RuntimeException("Cannot connect to database!", ex);
+      throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_CANNOT_CONNECT), ex);
     }
   }
 
@@ -97,7 +109,7 @@ public class WorkspaceControler {
         System.out.println("Connection closed successfully.");
       }
     } catch (SQLException ex) {
-      throw new RuntimeException("Cannot close connection to database!", ex);
+      throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_CANNOT_CLOSE), ex);
     }
   }
 

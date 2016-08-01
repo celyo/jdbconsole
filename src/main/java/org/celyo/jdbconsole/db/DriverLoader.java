@@ -22,6 +22,8 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Driver;
+import org.celyo.jdbconsole.util.MessageKey;
+import org.celyo.jdbconsole.util.Messages;
 
 public class DriverLoader {
 
@@ -38,11 +40,11 @@ public class DriverLoader {
     File f = new File(driverPath);
 
     if (!f.exists()) {
-      throw new IllegalArgumentException("Driver path does not exist!");
+      throw new IllegalArgumentException(Messages.getString(MessageKey.EXCEPTION_DRIVER_PATH_NOT_EXIST));
     }
 
     if (!f.isDirectory()) {
-      throw new IllegalArgumentException("Driver path is not a directory!");
+      throw new IllegalArgumentException(Messages.getString(MessageKey.EXCEPTION_DRIVER_PATH_NOT_DIR));
     }
 
     File[] drivers = f.listFiles(driverFilter);
@@ -53,7 +55,7 @@ public class DriverLoader {
         driverUrls[i] = drivers[i].toURI().toURL();
       }
     } catch (MalformedURLException ex) {
-      throw new RuntimeException("Cannot read drivers!", ex);
+      throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_DRIVER_CANNOT_READ_DRIVER), ex);
     }
 
     classloader = new URLClassLoader(driverUrls);
@@ -64,7 +66,7 @@ public class DriverLoader {
     try {
       drv = (Driver) Class.forName(driverClassName, true, classloader).newInstance();
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-      throw new RuntimeException("Cannot load driver!", ex);
+      throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_DRIVER_CANNOT_LOAD_DRIVER), ex);
     }
 
     return new DriverWrapper(drv);

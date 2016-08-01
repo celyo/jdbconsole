@@ -31,6 +31,15 @@ public enum MessageKey {
   EXCEPTION_SCRIPT_NO_CURRENT_STATEMENT("exception.script.no_current_statement"),
   EXCEPTION_SCRIPT_NO_STATEMENTS("exception.script.no_statements"),
   EXCEPTION_CONVERT_CANNOT_CONVERT_RESULTSET("exception.convert.cannot_convert_resultset"),
+
+  EXCEPTION_DRIVER_PATH_NOT_EXIST("exception.driver.path_not_exist"),
+  EXCEPTION_DRIVER_PATH_NOT_DIR("exception.driver.path_not_dir"),
+  EXCEPTION_DRIVER_CANNOT_READ_DRIVER("exception.driver.cannot_read_driver"),
+  EXCEPTION_DRIVER_CANNOT_LOAD_DRIVER("exception.driver.cannot_load_driver"),
+  EXCEPTION_CONNECTION_DRIVER_NOT_SET("exception.connection.driver_not_set"),
+  EXCEPTION_CONNECTION_URL_NOT_SET("exception.connection.url_not_set"),
+  EXCEPTION_CONNECTION_CANNOT_CONNECT("exception.connection.cannot_connect"),
+  EXCEPTION_CONNECTION_CANNOT_CLOSE("exception.connection.cannot_close"),
   ;
 
   private final String key;

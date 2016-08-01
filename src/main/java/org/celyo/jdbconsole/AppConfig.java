@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -139,6 +138,7 @@ public class AppConfig {
     System.out.println("appVersion=" + getAppVersion());
     System.out.println("configDirName=" + getConfigDirName());
     System.out.println("configFileName=" + getConfigFileName());
+    System.out.println("driverDirName=" + getDriverDirName());
 
     props.list(System.out);
   }

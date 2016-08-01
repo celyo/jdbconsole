@@ -50,6 +50,8 @@ public class MainApp {
 
     // Create gui and start gui
     gui.addWindowAndWait(workspace.asWindow());
+
+    controler.uninit();
   }
 
   private static void init() throws IOException {
