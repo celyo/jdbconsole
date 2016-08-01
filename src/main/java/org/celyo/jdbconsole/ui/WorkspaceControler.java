@@ -25,8 +25,11 @@ import org.celyo.jdbconsole.db.SqlStatement;
 import org.celyo.jdbconsole.model.ConnectionInfo;
 import org.celyo.jdbconsole.util.MessageKey;
 import org.celyo.jdbconsole.util.Messages;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WorkspaceControler {
+  private static final Logger LOG = LoggerFactory.getLogger(WorkspaceControler.class);
 
   private final WorkspaceView view;
   private final DriverLoader drvLoader = new DriverLoader(AppConfig.getDriverDirName());
@@ -94,7 +97,7 @@ public class WorkspaceControler {
     try {
       DriverManager.registerDriver(drvLoader.loadDriver(conn.getDriver()));
       connection = DriverManager.getConnection(conn.getUrl(), conn.getUser(), conn.getPassword());
-      System.out.println("Connection enstablished successfully.");
+      LOG.info("Connection enstablished successfully.");
     } catch (SQLException ex) {
       throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_CANNOT_CONNECT), ex);
     }
@@ -106,7 +109,7 @@ public class WorkspaceControler {
         connection.close();
         connection = null;
 
-        System.out.println("Connection closed successfully.");
+        LOG.info("Connection closed successfully.");
       }
     } catch (SQLException ex) {
       throw new RuntimeException(Messages.getString(MessageKey.EXCEPTION_CONNECTION_CANNOT_CLOSE), ex);
