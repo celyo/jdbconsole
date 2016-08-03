@@ -26,16 +26,15 @@
       <directory>${project.build.directory}/site</directory>
       <outputDirectory>docs</outputDirectory>
     </fileSet>
+    <fileSet>
+      <directory>${project.build.directory}</directory>
+      <includes>
+        <include>${project.build.finalName}.jar</include>
+      </includes>
+      <outputDirectory>bin</outputDirectory>
+    </fileSet>
   </fileSets>
   <dependencySets>
-    <dependencySet>
-      <includes>
-        <include>${project.groupId}:${project.artifactId}</include>
-      </includes>  
-      <outputDirectory>bin</outputDirectory>
-      <useProjectArtifact>true</useProjectArtifact>
-      <scope>runtime</scope>
-    </dependencySet>
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
       <useProjectArtifact>false</useProjectArtifact>
