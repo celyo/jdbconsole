@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import org.celyo.jdbconsole.util.StrUtils;
 
 public class SqlScriptParser {
 // see: http://www.docjar.org/html/api/com/ibatis/common/jdbc/ScriptRunner.java.html
@@ -114,19 +115,8 @@ public class SqlScriptParser {
 
   public void parse(String text) {
     clear();
-    
-    if (text == null || text.isEmpty()) {
-      return;
-    }
-    
-    List<String> lines = new LinkedList<>();
-    
-    String[] rawLines = text.split("\n");
-    for (String line : rawLines) {
-      lines.add(line.replace("\r", ""));
-    }
-    
-    parse(lines);
+
+    parse(StrUtils.splitLines(text));
   }
 
   public List<SqlStatement> getStatements() {

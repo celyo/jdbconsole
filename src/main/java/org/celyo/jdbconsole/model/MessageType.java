@@ -22,7 +22,7 @@ import org.celyo.jdbconsole.util.Messages;
 public enum MessageType {
   INFO(Messages.getString(MessageKey.MESSAGE_TYPE_INFO)), 
   WARNING(Messages.getString(MessageKey.MESSAGE_TYPE_WARNING)), 
-  RROR(Messages.getString(MessageKey.MESSAGE_TYPE_ERROR));
+  ERROR(Messages.getString(MessageKey.MESSAGE_TYPE_ERROR));
   
   private final String caption;
   

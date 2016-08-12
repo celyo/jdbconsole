@@ -15,6 +15,7 @@
  */
 package org.celyo.jdbconsole.ui;
 
+import java.awt.TrayIcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -22,7 +23,10 @@ import java.util.List;
 import org.celyo.jdbconsole.AppConfig;
 import org.celyo.jdbconsole.db.DriverLoader;
 import org.celyo.jdbconsole.db.SqlStatement;
+import org.celyo.jdbconsole.db.SqlUtils;
 import org.celyo.jdbconsole.model.ConnectionInfo;
+import org.celyo.jdbconsole.model.MessageType;
+import org.celyo.jdbconsole.model.TextMessage;
 import org.celyo.jdbconsole.util.MessageKey;
 import org.celyo.jdbconsole.util.Messages;
 import org.slf4j.Logger;
@@ -46,14 +50,19 @@ public class WorkspaceControler {
   private ExecuteStatementListener executeStatementListener = new ExecuteStatementListener() {
     @Override
     public void onExecuteStatement(SqlStatement statement) {
-      System.out.println("WorkspaceControler.ExecuteStatementListener.onExecuteStatement: TODO - real impementation needed");
+      processStatement(statement);
     }
   };
 
   private ExecuteStatementsListener executeStatementsListener = new ExecuteStatementsListener() {
     @Override
     public void onExecuteStatements(List<SqlStatement> statements) {
-      System.out.println("WorkspaceControler.ExecuteStatementsListener.onExecuteStatements: TODO - real impementation needed");
+      for (SqlStatement statement : statements) {
+        boolean success = processStatement(statement);
+        if (!success) {
+          break;
+        }
+      }
     }
   };
 
@@ -116,4 +125,21 @@ public class WorkspaceControler {
     }
   }
 
-}
+  private boolean processStatement(SqlStatement statement) {
+    if (statement != null) {
+      try {
+        if (SqlUtils.isSelectStatement(statement.getSql())) {
+          //TODO handle select
+        } else {
+          //TODO handle update & delete
+        }
+      } catch (Exception e) {
+        view.getResultView().setMessage(new TextMessage(MessageType.ERROR, e.getMessage()));
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+ }

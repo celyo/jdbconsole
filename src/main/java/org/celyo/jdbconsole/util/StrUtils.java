@@ -19,7 +19,10 @@ package org.celyo.jdbconsole.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class StrUtils {
   private static final SimpleDateFormat defaultDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -94,5 +97,34 @@ public class StrUtils {
       throw new IllegalArgumentException(
           "Invalid agrument type. Convertion can be made only from String.");
     }
+  }
+  
+  public static List<String> splitLines(String text) {
+    List<String> lines = new ArrayList<>();
+
+    if (text != null && !text.isEmpty()) {
+      String[] rawLines = text.split("\n");
+      for (String line : rawLines) {
+        lines.add(line.replace("\r", ""));
+      }
+    }
+    
+    return lines;
+  }
+
+  public static String joinLines(List<String> lines) {
+    StringBuilder text = new StringBuilder();
+    
+    boolean firstLine = true;
+    for (String line : lines) {
+      if (!firstLine) {
+        text.append("\n");
+      }
+      text.append(line);
+      
+      firstLine = false;
+    }
+    
+    return text.toString();
   }
 }
