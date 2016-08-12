@@ -18,10 +18,13 @@ package org.celyo.jdbconsole.ui;
 import java.awt.TrayIcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.celyo.jdbconsole.AppConfig;
 import org.celyo.jdbconsole.db.DriverLoader;
+import org.celyo.jdbconsole.db.ResultSetConvertor;
 import org.celyo.jdbconsole.db.SqlStatement;
 import org.celyo.jdbconsole.db.SqlUtils;
 import org.celyo.jdbconsole.model.ConnectionInfo;
@@ -50,6 +53,7 @@ public class WorkspaceControler {
   private ExecuteStatementListener executeStatementListener = new ExecuteStatementListener() {
     @Override
     public void onExecuteStatement(SqlStatement statement) {
+      view.getResultView().clearAll();
       processStatement(statement);
     }
   };
@@ -57,6 +61,7 @@ public class WorkspaceControler {
   private ExecuteStatementsListener executeStatementsListener = new ExecuteStatementsListener() {
     @Override
     public void onExecuteStatements(List<SqlStatement> statements) {
+      view.getResultView().clearAll();
       for (SqlStatement statement : statements) {
         boolean success = processStatement(statement);
         if (!success) {
@@ -129,12 +134,31 @@ public class WorkspaceControler {
     if (statement != null) {
       try {
         if (SqlUtils.isSelectStatement(statement.getSql())) {
-          //TODO handle select
+          ResultSetConvertor convertor = new ResultSetConvertor();
+          PreparedStatement pstmt = null;
+          try {
+            pstmt = connection.prepareStatement(statement.getSql());
+            ResultSet rs = pstmt.executeQuery();
+            view.getResultView().setResult(convertor.convert(rs));
+          } finally {
+            if (pstmt != null) {
+              pstmt.close();
+            }
+          }
         } else {
-          //TODO handle update & delete
+          PreparedStatement pstmt = null;
+          try {
+            pstmt = connection.prepareStatement(statement.getSql());
+            int rows = pstmt.executeUpdate();
+            view.getResultView().addMessage(new TextMessage(MessageType.INFO, Messages.getString(MessageKey.WORKSPACE_CONTROLLER_AFFECTED_ROWS, rows)));
+          } finally {
+            if (pstmt != null) {
+              pstmt.close();
+            }
+          }
         }
       } catch (Exception e) {
-        view.getResultView().setMessage(new TextMessage(MessageType.ERROR, e.getMessage()));
+        view.getResultView().addMessage(new TextMessage(MessageType.ERROR, e.getMessage()));
         return false;
       }
     }

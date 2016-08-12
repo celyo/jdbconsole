@@ -93,7 +93,6 @@ public class ScriptBox extends TextBox {
           return Result.HANDLED;
         //break;
         case Character:
-          System.out.println("'" + keyStroke.getCharacter() + "' : " + (int) keyStroke.getCharacter());
           // Ctrl + SPACE is pressed
           if (keyStroke.getCharacter().equals(SPACE) && keyStroke.isCtrlDown() && !keyStroke.isAltDown() && !keyStroke.isShiftDown()) {
             if (codeCompleteListener != null) {

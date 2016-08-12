@@ -133,6 +133,10 @@ public class SqlScriptParser {
       }
     }
 
+    if (statements.size() == 1) {
+      return statements.get(0);
+    }
+    
     return null;
   }
 }

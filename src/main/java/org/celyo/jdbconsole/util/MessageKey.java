@@ -22,6 +22,8 @@ public enum MessageKey {
   WORKSPACE_SQL_TITLE("workspace.sql.title"),
   WORKSPACE_RESULT_TITLE("workspace.result.title"),
   
+  WORKSPACE_CONTROLLER_AFFECTED_ROWS("workspace.controller.affected_rows"),
+
   CONNECTIONS_BUTTON_EDIT_CONNECTIONS("connections.button.edit_connections"),
 
   MESSAGE_TYPE_INFO("message_type.info"),
