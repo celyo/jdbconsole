@@ -24,6 +24,7 @@ import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.celyo.jdbconsole.model.ResultSet;
 import org.celyo.jdbconsole.model.TextMessage;
 
@@ -49,6 +50,8 @@ public class ResultContainer implements ResultView {
     msgBox = new ScriptBox(size);
     msgBox.setReadOnly(true);
     resultTable = new Table("#");
+    resultTable.setCellSelection(true);
+    resultTable.setVisibleRows(size.getRows() - 1);
     
     setActiveComponent(resultTable);
   }
@@ -99,7 +102,25 @@ public class ResultContainer implements ResultView {
 
   @Override
   public void setResult(ResultSet rs) {
-    System.out.println("ResultContainer.setResult: TODO - real impementation needed");
+    clearResult();
+    for (String col : rs.getColumns()) {
+      resultTable.getTableModel().addColumn(col, null);
+    }
+    
+    int rowNum = 0;
+    for (Map<String, Object> row : rs.getRows()) {
+      rowNum++;
+      List<String> values = new ArrayList<>();
+      values.add(String.valueOf(rowNum));
+
+      for (String col : rs.getColumns()) {
+        values.add(formatValue(row.get(col)));
+      }
+      
+      resultTable.getTableModel().addRow(values);
+    }
+
+    resultTable.invalidate();
     setActiveComponent(resultTable);
   }
 
@@ -110,6 +131,12 @@ public class ResultContainer implements ResultView {
     setActiveComponent(msgBox);
   }
   
-  
+  private String formatValue(Object src) {
+    if (src != null) {
+      return src.toString();
+    } else {
+      return "<null>";
+    }
+  }
 
 }

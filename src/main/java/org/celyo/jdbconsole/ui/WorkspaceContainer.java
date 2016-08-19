@@ -61,9 +61,9 @@ public class WorkspaceContainer implements WorkspaceView {
     centralPanel.setPreferredSize(screenSize.withRelativeRows(-TOOLBAR_HEIGHT));
     centralPanel.setLayoutManager(new BorderLayout());
     centralPanel.addComponent(sqlView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_SQL_TITLE))),
-        BorderLayout.Location.TOP);
-    centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_RESULT_TITLE))),
         BorderLayout.Location.CENTER);
+    centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_RESULT_TITLE))),
+        BorderLayout.Location.BOTTOM);
     mainPanel.addComponent(centralPanel, BorderLayout.Location.CENTER);
 
     mainWindow.setComponent(mainPanel);

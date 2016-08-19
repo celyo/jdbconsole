@@ -30,14 +30,13 @@ public class ResultSetConvertor {
     try {
       ResultSetMetaData rsm = rs.getMetaData();
       // retrieve columns
-      for (int i = 0; i < rsm.getColumnCount(); i++) {
+      for (int i = 1; i <= rsm.getColumnCount(); i++) {
         result.getColumns().add(rsm.getColumnLabel(i));
       }
       
-      rs.first();
       while(rs.next()) {
         Map<String, Object> row = new HashMap<>();
-        for (int i = 0; i < rsm.getColumnCount(); i++) {
+        for (int i = 1; i <= rsm.getColumnCount(); i++) {
           row.put(rsm.getColumnLabel(i), rs.getObject(i));
         }
         result.getRows().add(row);
