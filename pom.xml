@@ -5,7 +5,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>JDBConsole</name>
   <properties>
-    <lanterna.version>3.0.0-beta3</lanterna.version>
+    <lanterna.version>3.0.0-SNAPSHOT</lanterna.version>
     <junit.version>4.12</junit.version>
     <slf4j.version>1.7.21</slf4j.version>
     <logback.version>1.1.7</logback.version>

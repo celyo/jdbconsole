@@ -22,6 +22,7 @@ import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.BorderLayout;
 import com.googlecode.lanterna.gui2.Borders;
 import com.googlecode.lanterna.gui2.Component;
+import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Window;
 import org.celyo.jdbconsole.util.MessageKey;
@@ -59,11 +60,11 @@ public class WorkspaceContainer implements WorkspaceView {
     // build central area
     Panel centralPanel = new Panel();
     centralPanel.setPreferredSize(screenSize.withRelativeRows(-TOOLBAR_HEIGHT));
-    centralPanel.setLayoutManager(new BorderLayout());
+    centralPanel.setLayoutManager(new GridLayout(1));
     centralPanel.addComponent(sqlView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_SQL_TITLE))),
-        BorderLayout.Location.CENTER);
+        GridLayout.createLayoutData(GridLayout.Alignment.FILL, GridLayout.Alignment.FILL, true, true));
     centralPanel.addComponent(resultView.asComponent().withBorder(Borders.singleLine(Messages.getString(MessageKey.WORKSPACE_RESULT_TITLE))),
-        BorderLayout.Location.BOTTOM);
+        GridLayout.createLayoutData(GridLayout.Alignment.FILL, GridLayout.Alignment.FILL, true, true));
     mainPanel.addComponent(centralPanel, BorderLayout.Location.CENTER);
 
     mainWindow.setComponent(mainPanel);

@@ -22,6 +22,7 @@ import com.googlecode.lanterna.gui2.Component;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.TextBox;
 import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.gui2.table.TableRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,8 @@ import org.celyo.jdbconsole.model.TextMessage;
 public class ResultContainer implements ResultView {
   
   private final List<TextMessage> messages = new ArrayList<>();
-  
+  private final TableRenderer<String> renderer = new CustomTableRenderer<>();
+
   private Panel root;
   private TextBox msgBox;
   private Table<String> resultTable;
@@ -52,6 +54,7 @@ public class ResultContainer implements ResultView {
     resultTable = new Table("#");
     resultTable.setCellSelection(true);
     resultTable.setVisibleRows(size.getRows() - 1);
+    resultTable.setRenderer(renderer);
     
     setActiveComponent(resultTable);
   }
