@@ -15,7 +15,6 @@
  */
 package org.celyo.jdbconsole.ui;
 
-import java.awt.TrayIcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,6 +45,7 @@ public class WorkspaceControler {
     @Override
     public void onConnectionChange(ConnectionInfo conn) {
       closeConnection();
+      view.getResultView().clearAll();
       openConnection(conn);
     }
   };
@@ -86,6 +86,8 @@ public class WorkspaceControler {
 
     view.getSqlView().setExecuteStatementListener(executeStatementListener);
     view.getSqlView().setExecuteStatementsListener(executeStatementsListener);
+    
+    view.getResultView().clearAll();
   }
 
   public void uninit() {

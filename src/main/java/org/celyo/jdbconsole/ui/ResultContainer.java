@@ -53,7 +53,6 @@ public class ResultContainer implements ResultView {
     msgBox.setReadOnly(true);
     resultTable = new Table("#");
     resultTable.setCellSelection(true);
-    resultTable.setVisibleRows(size.getRows() - 1);
     resultTable.setRenderer(renderer);
     
     setActiveComponent(resultTable);
@@ -131,7 +130,7 @@ public class ResultContainer implements ResultView {
   public void clearAll() {
     clearMessages();
     clearResult();
-    setActiveComponent(msgBox);
+    setActiveComponent(resultTable);
   }
   
   private String formatValue(Object src) {
